@@ -1,0 +1,358 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LanguageSwitcher from '../components/LanguageSwitcher.astro';
+import { t } from '../utils/i18n.ts';
+
+const lang = Astro.url.searchParams.get('lang') || 'ja';
+
+// サンプルプロジェクトデータ（時給制に修正）
+const projects = [
+  {
+    id: 1,
+    title: t('student.title', lang) === '專案列表' ? "電商網站UI/UX更新" : "ECサイトのUI/UXリニューアル",
+    company: "山田商店",
+    location: t('student.title', lang) === '專案列表' ? "福岡縣" : "福岡県",
+    type: t('student.title', lang) === '專案列表' ? "實習" : "インターン",
+    duration: t('student.title', lang) === '專案列表' ? "2個月" : "2ヶ月",
+    hourlyRate: "¥1,200/時",
+    totalHours: t('student.title', lang) === '專案列表' ? "每週20小時" : "週20時間",
+    description: t('student.title', lang) === '專案列表' ? "改善地區密集型老字號商店電商網站的用戶體驗專案" : "地域密着型の老舗商店のECサイトのユーザビリティを向上させるプロジェクト",
+    skills: ["UI/UX", "Figma", t('student.title', lang) === '專案列表' ? "用戶研究" : "ユーザーリサーチ"],
+    applicants: 8,
+    featured: true,
+    deadline: "2024-02-15",
+    difficulty: t('student.title', lang) === '專案列表' ? "中級" : "中級",
+    remote: true
+  },
+  {
+    id: 2,
+    title: t('student.title', lang) === '專案列表' ? "品牌標誌與識別設計" : "ブランドロゴ・アイデンティティ制作",
+    company: t('student.title', lang) === '專案列表' ? "地方創生合同公司" : "地方創生合同会社",
+    location: t('student.title', lang) === '專案列表' ? "熊本縣" : "熊本県",
+    type: t('student.title', lang) === '專案列表' ? "業務委託" : "業務委託",
+    duration: t('student.title', lang) === '專案列表' ? "1個月" : "1ヶ月",
+    hourlyRate: "¥1,500/時",
+    totalHours: t('student.title', lang) === '專案列表' ? "總計50小時" : "総50時間",
+    description: t('student.title', lang) === '專案列表' ? "從零開始創建新地方創生事業的品牌識別專案" : "新しい地方創生事業のブランドアイデンティティを一から作成するプロジェクト",
+    skills: [t('student.title', lang) === '專案列表' ? "品牌設計" : "ブランディング", "Illustrator", t('student.title', lang) === '專案列表' ? "標誌設計" : "ロゴデザイン"],
+    applicants: 12,
+    featured: true,
+    deadline: "2024-02-20",
+    difficulty: t('student.title', lang) === '專案列表' ? "高級" : "上級",
+    remote: false
+  },
+  {
+    id: 3,
+    title: t('student.title', lang) === '專案列表' ? "活動海報與傳單設計" : "イベントポスター・チラシデザイン",
+    company: t('student.title', lang) === '專案列表' ? "宮崎觀光協會" : "宮崎観光協会",
+    location: t('student.title', lang) === '專案列表' ? "宮崎縣" : "宮崎県",
+    type: t('student.title', lang) === '專案列表' ? "業務委託" : "業務委託",
+    duration: t('student.title', lang) === '專案列表' ? "3週" : "3週間",
+    hourlyRate: "¥1,200/時",
+    totalHours: t('student.title', lang) === '專案列表' ? "總計30小時" : "総30時間",
+    description: t('student.title', lang) === '專案列表' ? "地區節慶活動宣傳物設計的短期專案" : "地域の祭りイベントの宣伝物をデザインする短期プロジェクト",
+    skills: [t('student.title', lang) === '專案列表' ? "平面設計" : "グラフィックデザイン", "Photoshop", t('student.title', lang) === '專案列表' ? "印刷物設計" : "印刷物デザイン"],
+    applicants: 5,
+    featured: false,
+    deadline: "2024-02-10",
+    difficulty: t('student.title', lang) === '專案列表' ? "初級" : "初級",
+    remote: true
+  },
+  {
+    id: 4,
+    title: t('student.title', lang) === '專案列表' ? "手機應用程式UI設計" : "スマホアプリUI設計",
+    company: t('student.title', lang) === '專案列表' ? "佐賀科技股份有限公司" : "佐賀テック株式会社",
+    location: t('student.title', lang) === '專案列表' ? "佐賀縣" : "佐賀県",
+    type: t('student.title', lang) === '專案列表' ? "實習" : "インターン",
+    duration: t('student.title', lang) === '專案列表' ? "3個月" : "3ヶ月",
+    hourlyRate: "¥1,300/時",
+    totalHours: t('student.title', lang) === '專案列表' ? "每週15小時" : "週15時間",
+    description: t('student.title', lang) === '專案列表' ? "地區資訊分享應用程式的行動UI設計與改善專案" : "地域情報共有アプリのモバイルUIを設計・改善するプロジェクト",
+    skills: [t('student.title', lang) === '專案列表' ? "行動UI" : "モバイルUI", "Sketch", t('student.title', lang) === '專案列表' ? "原型製作" : "プロトタイプ"],
+    applicants: 15,
+    featured: false,
+    deadline: "2024-02-25",
+    difficulty: t('student.title', lang) === '專案列表' ? "中級" : "中級",
+    remote: true
+  },
+  {
+    id: 5,
+    title: t('student.title', lang) === '專案列表' ? "公司簡介手冊製作" : "会社案内パンフレット制作",
+    company: "大分工業協同組合",
+    location: t('student.title', lang) === '專案列表' ? "大分縣" : "大分県",
+    type: t('student.title', lang) === '專案列表' ? "業務委託" : "業務委託",
+    duration: t('student.title', lang) === '專案列表' ? "1個半月" : "1ヶ月半",
+    hourlyRate: "¥1,200/時",
+    totalHours: t('student.title', lang) === '專案列表' ? "總計40小時" : "総40時間",
+    description: t('student.title', lang) === '專案列表' ? "工業協同組合公司簡介手冊更新專案" : "工業協同組合の会社案内パンフレットをリニューアルするプロジェクト",
+    skills: [t('student.title', lang) === '專案列表' ? "編輯設計" : "エディトリアルデザイン", "InDesign", t('student.title', lang) === '專案列表' ? "照片編輯" : "写真編集"],
+    applicants: 7,
+    featured: false,
+    deadline: "2024-03-01",
+    difficulty: t('student.title', lang) === '專案列表' ? "中級" : "中級",
+    remote: false
+  },
+  {
+    id: 6,
+    title: t('student.title', lang) === '專案列表' ? "網站全面更新" : "Webサイトリニューアル",
+    company: t('student.title', lang) === '專案列表' ? "鹿兒島縣觀光局" : "鹿児島県観光局",
+    location: t('student.title', lang) === '專案列表' ? "鹿兒島縣" : "鹿児島県",
+    type: t('student.title', lang) === '專案列表' ? "實習" : "インターン",
+    duration: t('student.title', lang) === '專案列表' ? "4個月" : "4ヶ月",
+    hourlyRate: "¥1,400/時",
+    totalHours: t('student.title', lang) === '專案列表' ? "每週25小時" : "週25時間",
+    description: t('student.title', lang) === '專案列表' ? "觀光資訊網站全面更新專案" : "観光情報サイトの全面リニューアルプロジェクト",
+    skills: [t('student.title', lang) === '專案列表' ? "網頁設計" : "Webデザイン", "HTML/CSS", "WordPress"],
+    applicants: 20,
+    featured: true,
+    deadline: "2024-03-15",
+    difficulty: t('student.title', lang) === '專案列表' ? "高級" : "上級",
+    remote: true
+  }
+];
+
+const categories = lang === 'zh-TW' ? 
+  ["全部", "UI/UX", "平面設計", "網頁設計", "品牌設計", "行動設計"] :
+  ["すべて", "UI/UX", "グラフィックデザイン", "Webデザイン", "ブランディング", "モバイルデザイン"];
+
+const locations = lang === 'zh-TW' ? 
+  ["全部", "福岡縣", "佐賀縣", "長崎縣", "熊本縣", "大分縣", "宮崎縣", "鹿兒島縣"] :
+  ["すべて", "福岡県", "佐賀県", "長崎県", "熊本県", "大分県", "宮崎県", "鹿児島県"];
+
+const types = lang === 'zh-TW' ? 
+  ["全部", "實習", "業務委託"] :
+  ["すべて", "インターン", "業務委託"];
+---
+
+<Layout title={`${t('student.title', lang)} | DesignBridge`}>
+  <div class="min-h-screen bg-gray-50">
+    <!-- ナビゲーション -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center">
+            <a href={`/?lang=${lang}`} class="text-xl font-semibold text-gray-900">
+              DesignBridge
+            </a>
+            <span class="ml-3 text-sm text-gray-500">{t('nav.students', lang)}</span>
+          </div>
+          <div class="flex items-center space-x-6">
+            <LanguageSwitcher />
+            <a href={`/student/profile?lang=${lang}`} class="text-sm text-gray-600 hover:text-gray-900">{t('nav.profile', lang)}</a>
+            <button class="text-sm text-gray-600 hover:text-gray-900">{t('nav.applications', lang)}</button>
+            <button class="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium">{t('nav.logout', lang)}</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ヒーローセクション -->
+    <div class="bg-white border-b border-gray-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center">
+          <h1 class="text-3xl font-bold text-gray-900 mb-3">
+            {t('student.title', lang)}
+          </h1>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            {t('student.subtitle', lang)}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- 検索・フィルター -->
+      <div class="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <input
+            type="text"
+            placeholder={t('student.search.placeholder', lang)}
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-sm"
+          />
+          
+          <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-sm">
+            <option>{t('student.type', lang)}</option>
+            {types.map(type => <option value={type}>{type}</option>)}
+          </select>
+          
+          <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-sm">
+            <option>{t('student.location', lang)}</option>
+            {locations.map(location => <option value={location}>{location}</option>)}
+          </select>
+          
+          <button class="bg-gray-900 hover:bg-gray-800 text-white py-2 px-4 rounded-md text-sm font-medium">
+            検索
+          </button>
+        </div>
+        
+        <!-- カテゴリータグ -->
+        <div class="border-t border-gray-200 pt-4">
+          <p class="text-sm font-medium text-gray-700 mb-3">{t('student.tags', lang)}</p>
+          <div class="flex flex-wrap gap-2">
+            {categories.map(category => (
+              <button class="px-3 py-1 text-sm border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 hover:border-gray-400 transition-colors">
+                {category}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- 注目プロジェクト -->
+      <div class="mb-12">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold text-gray-900">
+            注目のプロジェクト
+          </h2>
+          <span class="text-sm text-gray-500">厳選された高評価案件</span>
+        </div>
+        
+        <div class="grid lg:grid-cols-3 gap-6">
+          {projects.filter(p => p.featured).map(project => (
+            <div class="bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow duration-200 overflow-hidden">
+              <!-- ヘッダー -->
+              <div class="p-6 border-b border-gray-100">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                    注目
+                  </span>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                    {project.difficulty}
+                  </span>
+                </div>
+                
+                <h3 class="text-lg font-semibold text-gray-900 mb-2 leading-tight">
+                  {project.title}
+                </h3>
+                <div class="flex items-center text-sm text-gray-600 space-x-4">
+                  <span class="font-medium">{project.company}</span>
+                  <span>{project.location}</span>
+                </div>
+              </div>
+
+              <!-- コンテンツ -->
+              <div class="p-6">
+                <div class="flex items-center space-x-2 mb-4">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                    {project.type}
+                  </span>
+                  {project.remote && (
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                      リモート可
+                    </span>
+                  )}
+                </div>
+                
+                <p class="text-gray-600 text-sm mb-4 leading-relaxed">{project.description}</p>
+                
+                <!-- スキルタグ -->
+                <div class="flex flex-wrap gap-1 mb-4">
+                  {project.skills.map(skill => (
+                    <span class="inline-flex items-center px-2 py-1 rounded text-xs bg-gray-100 text-gray-700">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+                
+                <!-- プロジェクト詳細 -->
+                <div class="space-y-2 mb-6 text-sm">
+                  <div class="flex items-center justify-between">
+                    <span class="text-gray-600">期間: {project.duration}</span>
+                    <span class="font-semibold text-gray-900">{project.hourlyRate}</span>
+                  </div>
+                  <div class="flex items-center justify-between text-xs text-gray-500">
+                    <span>{project.applicants}名が応募中</span>
+                    <span>{project.totalHours}</span>
+                  </div>
+                </div>
+                
+                <button class="w-full bg-gray-900 hover:bg-gray-800 text-white py-2 px-4 rounded-md text-sm font-medium">
+                  {t('student.view_details', lang)}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- 全プロジェクト一覧 -->
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">
+          すべてのプロジェクト
+        </h2>
+        
+        <div class="grid lg:grid-cols-3 gap-4">
+          {projects.map(project => (
+            <div class="bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow duration-200 overflow-hidden">
+              <div class="p-5">
+                <div class="flex items-center space-x-2 mb-3">
+                  <span class="inline-flex items-center px-2 py-1 rounded text-xs bg-gray-100 text-gray-700">
+                    {project.type}
+                  </span>
+                  <span class="inline-flex items-center px-2 py-1 rounded text-xs bg-gray-100 text-gray-700">
+                    {project.difficulty}
+                  </span>
+                  {project.remote && (
+                    <span class="inline-flex items-center px-2 py-1 rounded text-xs bg-gray-100 text-gray-700">
+                      リモート
+                    </span>
+                  )}
+                </div>
+                
+                <h3 class="font-semibold text-gray-900 mb-1 leading-tight">
+                  {project.title}
+                </h3>
+                <div class="text-sm text-gray-600 mb-3">
+                  <div class="font-medium">{project.company}</div>
+                  <div>{project.location}</div>
+                </div>
+                
+                <p class="text-gray-600 text-sm mb-3 leading-relaxed line-clamp-2">{project.description}</p>
+                
+                <div class="flex flex-wrap gap-1 mb-3">
+                  {project.skills.slice(0, 3).map(skill => (
+                    <span class="inline-flex items-center px-2 py-1 rounded text-xs bg-gray-100 text-gray-700">{skill}</span>
+                  ))}
+                </div>
+                
+                <div class="flex items-center justify-between text-sm mb-4">
+                  <span class="text-gray-600">{project.duration}</span>
+                  <span class="font-semibold text-gray-900">{project.hourlyRate}</span>
+                </div>
+                
+                <div class="flex items-center justify-between text-xs text-gray-500 mb-4">
+                  <span>{project.applicants}名が応募中</span>
+                  <span>締切: {project.deadline}</span>
+                </div>
+                
+                <button class="w-full bg-gray-900 hover:bg-gray-800 text-white py-2 px-3 rounded-md text-sm font-medium">
+                  {t('student.view_details', lang)}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- ページネーション -->
+      <div class="flex justify-center">
+        <div class="flex items-center space-x-1">
+          <button class="px-3 py-2 text-sm border border-gray-300 text-gray-500 rounded-md hover:bg-gray-50">前へ</button>
+          <button class="px-3 py-2 text-sm bg-gray-900 text-white rounded-md">1</button>
+          <button class="px-3 py-2 text-sm border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50">2</button>
+          <button class="px-3 py-2 text-sm border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50">3</button>
+          <button class="px-3 py-2 text-sm border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50">次へ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style> 

@@ -1,0 +1,279 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LanguageSwitcher from '../components/LanguageSwitcher.astro';
+import { t } from '../utils/i18n.ts';
+
+const lang = Astro.url.searchParams.get('lang') || 'ja';
+
+// サンプルデータ
+const projects = [
+  {
+    id: 1,
+    title: t('company.dashboard', lang) === '企業儀表板' ? "電商網站UI/UX更新" : "ECサイトのUI/UXリニューアル",
+    status: t('company.dashboard', lang) === '企業儀表板' ? "招募中" : "募集中",
+    applicants: 8,
+    posted: "2024-01-15",
+    deadline: "2024-02-15"
+  },
+  {
+    id: 2,
+    title: t('company.dashboard', lang) === '企業儀表板' ? "公司簡介手冊製作" : "会社案内パンフレット制作",
+    status: t('company.dashboard', lang) === '企業儀表板' ? "進行中" : "進行中",
+    applicants: 12,
+    posted: "2024-01-10",
+    deadline: "2024-02-10"
+  },
+  {
+    id: 3,
+    title: t('company.dashboard', lang) === '企業儀表板' ? "標誌更新" : "ロゴリニューアル",
+    status: t('company.dashboard', lang) === '企業儀表板' ? "完成" : "完了",
+    applicants: 15,
+    posted: "2023-12-01",
+    deadline: "2024-01-01"
+  }
+];
+
+const recentApplicants = [
+  {
+    id: 1,
+    name: "田中 花子",
+    university: t('company.dashboard', lang) === '企業儀表板' ? "東京設計大學" : "東京デザイン大学",
+    skills: ["UI/UX", "Figma", "Photoshop"],
+    portfolio: "portfolio-url",
+    appliedFor: t('company.dashboard', lang) === '企業儀表板' ? "電商網站UI/UX更新" : "ECサイトのUI/UXリニューアル",
+    appliedDate: "2024-01-20"
+  },
+  {
+    id: 2,
+    name: "山田 太郎",
+    university: t('company.dashboard', lang) === '企業儀表板' ? "九州藝術工科大學" : "九州芸術工科大学",
+    skills: [t('company.dashboard', lang) === '企業儀表板' ? "平面設計" : "グラフィックデザイン", "Illustrator", "InDesign"],
+    portfolio: "portfolio-url",
+    appliedFor: t('company.dashboard', lang) === '企業儀表板' ? "公司簡介手冊製作" : "会社案内パンフレット制作",
+    appliedDate: "2024-01-19"
+  }
+];
+
+---
+
+<Layout title={`${t('company.dashboard', lang)} | DesignBridge`}>
+  <div class="min-h-screen bg-gray-50">
+    <!-- ナビゲーション -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center">
+            <a href={`/?lang=${lang}`} class="text-xl font-semibold text-gray-900">DesignBridge</a>
+            <span class="ml-3 text-sm text-gray-500">{t('nav.companies', lang)}</span>
+          </div>
+          <div class="flex items-center space-x-6">
+            <LanguageSwitcher />
+            <button class="text-sm text-gray-600 hover:text-gray-900">{t('nav.settings', lang)}</button>
+            <button class="text-sm text-gray-600 hover:text-gray-900">{t('nav.help', lang)}</button>
+            <button class="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium">{t('nav.logout', lang)}</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- ヘッダー -->
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">{t('company.dashboard', lang)}</h1>
+        <p class="text-gray-600">{t('company.dashboard.subtitle', lang)}</p>
+      </div>
+
+      <!-- クイックアクション -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <button class="bg-gray-900 hover:bg-gray-800 text-white p-6 rounded-lg border border-gray-200 transition-colors text-left">
+          <div class="flex items-center">
+            <svg class="w-8 h-8 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            <div>
+              <h3 class="text-lg font-semibold">{t('company.new_project', lang)}</h3>
+              <p class="text-gray-300">{t('company.new_project.subtitle', lang)}</p>
+            </div>
+          </div>
+        </button>
+
+        <button class="bg-white hover:bg-gray-50 border border-gray-200 p-6 rounded-lg transition-colors text-left">
+          <div class="flex items-center">
+            <svg class="w-8 h-8 mr-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 515.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900">{t('company.applicant_management', lang)}</h3>
+              <p class="text-gray-600">{t('company.applicant_management.subtitle', lang)}</p>
+            </div>
+          </div>
+        </button>
+
+        <button class="bg-white hover:bg-gray-50 border border-gray-200 p-6 rounded-lg transition-colors text-left">
+          <div class="flex items-center">
+            <svg class="w-8 h-8 mr-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900">{t('company.student_evaluation', lang)}</h3>
+              <p class="text-gray-600">{t('company.student_evaluation.subtitle', lang)}</p>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <!-- 統計カード -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white p-6 rounded-lg border border-gray-200">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-600 text-sm">アクティブプロジェクト</p>
+              <p class="text-3xl font-semibold text-gray-900">2</p>
+            </div>
+            <div class="bg-gray-100 p-3 rounded-full">
+              <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg border border-gray-200">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-600 text-sm">総応募者数</p>
+              <p class="text-3xl font-semibold text-gray-900">35</p>
+            </div>
+            <div class="bg-gray-100 p-3 rounded-full">
+              <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 515.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg border border-gray-200">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-600 text-sm">完了プロジェクト</p>
+              <p class="text-3xl font-semibold text-gray-900">12</p>
+            </div>
+            <div class="bg-gray-100 p-3 rounded-full">
+              <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg border border-gray-200">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-600 text-sm">平均評価</p>
+              <p class="text-3xl font-semibold text-gray-900">4.8</p>
+            </div>
+            <div class="bg-gray-100 p-3 rounded-full">
+              <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- プロジェクト一覧 -->
+        <div class="bg-white rounded-lg border border-gray-200">
+          <div class="p-6 border-b border-gray-200">
+            <h2 class="text-xl font-semibold text-gray-900">あなたのプロジェクト</h2>
+          </div>
+          <div class="p-6">
+            <div class="space-y-4">
+              {projects.map(project => (
+                <div class="border border-gray-200 rounded-lg p-4">
+                  <div class="flex justify-between items-start mb-2">
+                    <h3 class="font-semibold text-gray-900">{project.title}</h3>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                      {project.status}
+                    </span>
+                  </div>
+                  <div class="text-sm text-gray-600 space-y-1">
+                    <p>応募者: {project.applicants}名</p>
+                    <p>投稿日: {project.posted}</p>
+                    <p>締切: {project.deadline}</p>
+                  </div>
+                  <div class="mt-3 flex space-x-2">
+                    <button class="text-gray-900 hover:text-gray-700 text-sm font-medium">詳細</button>
+                    <button class="text-gray-600 hover:text-gray-800 text-sm font-medium">編集</button>
+                    {project.status === '完了' && (
+                      <button class="text-gray-600 hover:text-gray-800 text-sm font-medium">評価</button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button class="w-full mt-4 text-gray-900 hover:text-gray-700 font-medium">すべて表示</button>
+          </div>
+        </div>
+
+        <!-- 最近の応募者 -->
+        <div class="bg-white rounded-lg border border-gray-200">
+          <div class="p-6 border-b border-gray-200">
+            <h2 class="text-xl font-semibold text-gray-900">最近の応募者</h2>
+          </div>
+          <div class="p-6">
+            <div class="space-y-4">
+              {recentApplicants.map(applicant => (
+                <div class="border border-gray-200 rounded-lg p-4">
+                  <div class="flex justify-between items-start mb-2">
+                    <div>
+                      <h3 class="font-semibold text-gray-900">{applicant.name}</h3>
+                      <p class="text-sm text-gray-600">{applicant.university}</p>
+                    </div>
+                    <span class="text-sm text-gray-500">{applicant.appliedDate}</span>
+                  </div>
+                  <p class="text-sm text-gray-700 mb-2">{applicant.appliedFor}</p>
+                  <div class="flex flex-wrap gap-1 mb-3">
+                    {applicant.skills.map(skill => (
+                      <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">{skill}</span>
+                    ))}
+                  </div>
+                  <div class="flex space-x-2">
+                    <button class="bg-gray-900 hover:bg-gray-800 text-white px-3 py-1 rounded text-sm">面接</button>
+                    <button class="border border-gray-300 hover:bg-gray-50 text-gray-700 px-3 py-1 rounded text-sm">ポートフォリオ</button>
+                    <button class="text-gray-600 hover:text-gray-800 text-sm">辞退</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button class="w-full mt-4 text-gray-900 hover:text-gray-700 font-medium">すべての応募者を表示</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 学生評価セクション -->
+      <div class="mt-8 bg-white rounded-lg border border-gray-200">
+        <div class="p-6 border-b border-gray-200">
+          <h2 class="text-xl font-semibold text-gray-900">{t('company.student_evaluation', lang)}</h2>
+          <p class="text-gray-600">{t('company.student_evaluation.subtitle', lang)}</p>
+        </div>
+        <div class="p-6">
+          <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <div class="flex items-center">
+              <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div>
+                <h3 class="font-medium text-gray-900">評価待ちのプロジェクト</h3>
+                <p class="text-sm text-gray-600">
+                  「ロゴリニューアル」プロジェクトの田中花子さんの評価をお願いします。
+                </p>
+              </div>
+              <button class="ml-auto bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium">評価する</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout> 
