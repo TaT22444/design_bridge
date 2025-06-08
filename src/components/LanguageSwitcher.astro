@@ -3,37 +3,94 @@ const currentLang = Astro.url.searchParams.get('lang') || 'ja';
 ---
 
 <div class="relative">
-  <select 
-    id="language-switcher" 
-    class="bg-white border border-gray-300 rounded-lg px-3 py-2 pr-8 text-sm appearance-none cursor-pointer hover:border-gray-400 focus:border-gray-900 focus:ring-2 focus:ring-gray-200"
-    onchange="switchLanguage(this.value)"
+  <button 
+    id="language-toggle" 
+    class="flex items-center space-x-1.5 px-2.5 py-1.5 text-xs font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-150 ease-in-out"
   >
-    <option value="ja" selected={currentLang === 'ja'}>🇯🇵 日本語</option>
-    <option value="zh-TW" selected={currentLang === 'zh-TW'}>🇹🇼 繁體中文</option>
-  </select>
-  <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    <span class="text-sm">{currentLang === 'ja' ? '🇯🇵' : '🇹🇼'}</span>
+    <span class="hidden sm:inline">{currentLang === 'ja' ? 'JP' : 'TW'}</span>
+    <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
     </svg>
+  </button>
+  
+  <div 
+    id="language-dropdown" 
+    class="hidden absolute right-0 mt-1 w-32 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-50"
+  >
+    <button 
+      data-lang="ja"
+      class="w-full flex items-center px-3 py-2 text-xs text-gray-700 hover:bg-gray-50 transition-colors duration-150"
+    >
+      <span class="mr-2">🇯🇵</span>
+      <span>日本語</span>
+    </button>
+    <button 
+      data-lang="zh-TW"
+      class="w-full flex items-center px-3 py-2 text-xs text-gray-700 hover:bg-gray-50 transition-colors duration-150"
+    >
+      <span class="mr-2">🇹🇼</span>
+      <span>繁體中文</span>
+    </button>
   </div>
 </div>
 
 <script>
   function switchLanguage(lang: string): void {
-    const url = new URL(window.location.href);
-    url.searchParams.set('lang', lang);
-    window.location.href = url.toString();
+    console.log('Switching to language:', lang);
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set('lang', lang);
+      console.log('New URL:', url.toString());
+      window.location.href = url.toString();
+    } catch (error) {
+      console.error('Error switching language:', error);
+      // Fallback method
+      const currentUrl = window.location.href;
+      const hasLang = currentUrl.includes('lang=');
+      let newUrl: string;
+      
+      if (hasLang) {
+        newUrl = currentUrl.replace(/lang=[^&]*/, `lang=${lang}`);
+      } else {
+        const separator = currentUrl.includes('?') ? '&' : '?';
+        newUrl = currentUrl + separator + `lang=${lang}`;
+      }
+      
+      console.log('Fallback URL:', newUrl);
+      window.location.href = newUrl;
+    }
   }
   
-  // Make function globally available
-  (window as any).switchLanguage = switchLanguage;
-  
-  // Set correct value on page load
+  // Initialize language switcher
   document.addEventListener('DOMContentLoaded', function() {
-    const switcher = document.getElementById('language-switcher') as HTMLSelectElement;
-    const currentLang = new URLSearchParams(window.location.search).get('lang') || 'ja';
-    if (switcher) {
-      switcher.value = currentLang;
+    const toggle = document.getElementById('language-toggle');
+    const dropdown = document.getElementById('language-dropdown');
+    const options = dropdown?.querySelectorAll('[data-lang]');
+    
+    if (toggle && dropdown) {
+      // Toggle dropdown
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdown.classList.toggle('hidden');
+      });
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function() {
+        dropdown.classList.add('hidden');
+      });
+      
+      // Handle language selection
+      options?.forEach(option => {
+        option.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const target = e.currentTarget as HTMLElement;
+          const lang = target.getAttribute('data-lang');
+          if (lang) {
+            switchLanguage(lang);
+          }
+        });
+      });
     }
   });
 </script> 

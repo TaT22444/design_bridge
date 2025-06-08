@@ -131,31 +131,32 @@ const avgOverallRating = studentProfile.companyEvaluations.reduce((sum, evaluati
             <a href={`/?lang=${lang}`} class="text-xl font-semibold text-gray-900">
               DesignBridge
             </a>
-            <span class="ml-3 text-sm text-gray-500">{t('nav.students', lang)}</span>
+            <span class="ml-3 text-sm text-gray-500 hidden sm:inline">{t('nav.students', lang)}</span>
           </div>
-          <div class="flex items-center space-x-6">
+          <div class="flex items-center space-x-2 sm:space-x-6">
             <LanguageSwitcher />
-            <a href={`/student?lang=${lang}`} class="text-sm text-gray-600 hover:text-gray-900">{lang === 'zh-TW' ? '專案列表' : 'プロジェクト一覧'}</a>
-            <button class="text-sm text-gray-600 hover:text-gray-900">{t('nav.applications', lang)}</button>
-            <button class="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium">{t('nav.logout', lang)}</button>
+            <a href={`/student?lang=${lang}`} class="text-xs text-gray-600 hover:text-gray-900 hidden sm:inline">{lang === 'zh-TW' ? '專案列表' : 'プロジェクト一覧'}</a>
+            <a href={`/student/profile?lang=${lang}`} class="text-xs text-gray-900 font-medium hidden sm:inline">{lang === 'zh-TW' ? '個人檔案' : 'プロフィール'}</a>
+            <button class="text-xs text-gray-600 hover:text-gray-900 hidden sm:inline">{t('nav.applications', lang)}</button>
+            <button class="bg-gray-900 hover:bg-gray-800 text-white px-3 sm:px-4 py-2 rounded-md text-xs font-medium">{t('nav.logout', lang)}</button>
           </div>
         </div>
       </div>
     </nav>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         <!-- プロフィール情報 -->
-        <div class="lg:col-span-1">
-          <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+        <div class="lg:col-span-1 order-1">
+          <div class="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 mb-6">
             <!-- プロフィール写真とbasic info -->
             <div class="text-center mb-6">
-              <div class="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-20 sm:w-24 h-20 sm:h-24 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <svg class="w-10 sm:w-12 h-10 sm:h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                 </svg>
               </div>
-              <h1 class="text-xl font-semibold text-gray-900 mb-1">{studentProfile.name}</h1>
+              <h1 class="text-lg sm:text-xl font-semibold text-gray-900 mb-1">{studentProfile.name}</h1>
               <p class="text-gray-600 text-sm">{studentProfile.nameEn}</p>
               <div class="mt-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs bg-gray-100 text-gray-800">
                 {lang === 'zh-TW' ? '學生會員' : '学生会員'}
@@ -164,216 +165,264 @@ const avgOverallRating = studentProfile.companyEvaluations.reduce((sum, evaluati
 
             <!-- 基本情報 -->
             <div class="space-y-4 text-sm">
-              <div>
-                <span class="font-medium text-gray-900">{lang === 'zh-TW' ? '大學' : '大学'}</span>
-                <p class="text-gray-600 mt-1">{studentProfile.university}</p>
+              <!-- 学業情報 -->
+              <div class="bg-gray-50 rounded-lg p-3">
+                <h3 class="font-medium text-gray-900 mb-2 text-xs uppercase tracking-wide">{lang === 'zh-TW' ? '學業資訊' : '学業情報'}</h3>
+                <div class="space-y-2">
+                  <div>
+                    <span class="text-gray-500 text-xs">{lang === 'zh-TW' ? '大學' : '大学'}</span>
+                    <p class="text-gray-900 font-medium">{studentProfile.university}</p>
+                  </div>
+                  <div class="grid grid-cols-2 gap-3">
+                    <div>
+                      <span class="text-gray-500 text-xs">{lang === 'zh-TW' ? '學年' : '学年'}</span>
+                      <p class="text-gray-900">{studentProfile.year}</p>
+                    </div>
+                    <div>
+                      <span class="text-gray-500 text-xs">{lang === 'zh-TW' ? '居住地' : '居住地'}</span>
+                      <p class="text-gray-900">{studentProfile.location}</p>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="text-gray-500 text-xs">{lang === 'zh-TW' ? '專業' : '専攻'}</span>
+                    <p class="text-gray-900">{studentProfile.major}</p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <span class="font-medium text-gray-900">{lang === 'zh-TW' ? '學年' : '学年'}</span>
-                <p class="text-gray-600 mt-1">{studentProfile.year}</p>
-              </div>
-              <div>
-                <span class="font-medium text-gray-900">{lang === 'zh-TW' ? '專業' : '専攻'}</span>
-                <p class="text-gray-600 mt-1">{studentProfile.major}</p>
-              </div>
-              <div>
-                <span class="font-medium text-gray-900">{lang === 'zh-TW' ? '居住地' : '居住地'}</span>
-                <p class="text-gray-600 mt-1">{studentProfile.location}</p>
-              </div>
-              <div>
-                <span class="font-medium text-gray-900">{lang === 'zh-TW' ? '可工作時間' : '稼働可能時間'}</span>
-                <p class="text-gray-600 mt-1">{studentProfile.availability}</p>
-              </div>
-              <div>
-                <span class="font-medium text-gray-900">{lang === 'zh-TW' ? '希望時薪' : '希望時給'}</span>
-                <p class="text-gray-600 mt-1">{studentProfile.hourlyRate}</p>
+
+              <!-- 勤務情報 -->
+              <div class="bg-gray-50 rounded-lg p-3">
+                <h3 class="font-medium text-gray-900 mb-2 text-xs uppercase tracking-wide">{lang === 'zh-TW' ? '工作條件' : '勤務条件'}</h3>
+                <div class="grid grid-cols-1 gap-2">
+                  <div>
+                    <span class="text-gray-500 text-xs">{lang === 'zh-TW' ? '可工作時間' : '稼働可能時間'}</span>
+                    <p class="text-gray-900 font-medium">{studentProfile.availability}</p>
+                  </div>
+                  <div>
+                    <span class="text-gray-500 text-xs">{lang === 'zh-TW' ? '希望時薪' : '希望時給'}</span>
+                    <p class="text-gray-900 font-medium">{studentProfile.hourlyRate}</p>
+                  </div>
+                </div>
               </div>
             </div>
 
             <!-- 言語スキル -->
             <div class="mt-6 pt-6 border-t border-gray-200">
-              <h3 class="font-medium text-gray-900 mb-3">{lang === 'zh-TW' ? '語言能力' : '言語スキル'}</h3>
+              <h3 class="font-medium text-gray-900 mb-3 text-xs uppercase tracking-wide">{lang === 'zh-TW' ? '語言能力' : '言語スキル'}</h3>
               <div class="space-y-2">
                 {studentProfile.languages.map(language => (
-                  <div class="text-sm text-gray-600">{language}</div>
+                  <div class="flex items-center">
+                    <div class="w-2 h-2 bg-gray-400 rounded-full mr-2"></div>
+                    <span class="text-sm text-gray-700">{language}</span>
+                  </div>
                 ))}
               </div>
             </div>
 
             <!-- 登録日 -->
             <div class="mt-6 pt-6 border-t border-gray-200 text-sm text-gray-500">
-              {lang === 'zh-TW' ? '加入日期' : '登録日'}: {studentProfile.joinDate}
+              <span class="text-xs uppercase tracking-wide">{lang === 'zh-TW' ? '加入日期' : '登録日'}</span>
+              <p class="text-gray-700 mt-1">{studentProfile.joinDate}</p>
             </div>
           </div>
 
           <!-- アクションボタン -->
           <div class="space-y-3">
-            <button class="w-full bg-gray-900 hover:bg-gray-800 text-white py-2 px-4 rounded-md text-sm font-medium">
+            <button class="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 px-4 rounded-lg text-sm font-medium transition-colors">
               {lang === 'zh-TW' ? '聯繫學生' : '学生に連絡'}
             </button>
-            <button class="w-full border border-gray-300 text-gray-700 hover:bg-gray-50 py-2 px-4 rounded-md text-sm font-medium">
+            <button class="w-full border border-gray-300 text-gray-700 hover:bg-gray-50 py-3 px-4 rounded-lg text-sm font-medium transition-colors">
               {lang === 'zh-TW' ? '查看完整作品集' : 'ポートフォリオを見る'}
             </button>
           </div>
         </div>
 
         <!-- メインコンテンツ -->
-        <div class="lg:col-span-2 space-y-6">
-          <!-- 自己紹介 -->
-          <div class="bg-white border border-gray-200 rounded-lg p-6">
-            <h2 class="text-lg font-semibold text-gray-900 mb-4">{lang === 'zh-TW' ? '自我介紹' : '自己紹介'}</h2>
-            <p class="text-gray-600 leading-relaxed">{studentProfile.bio}</p>
-          </div>
-
-          <!-- スキル -->
-          <div class="bg-white border border-gray-200 rounded-lg p-6">
-            <h2 class="text-lg font-semibold text-gray-900 mb-4">{lang === 'zh-TW' ? '技能' : 'スキル'}</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {studentProfile.skills.map(skill => (
-                <div class="flex items-center justify-between">
-                  <span class="text-sm font-medium text-gray-900">{skill.name}</span>
-                  <div class="flex items-center space-x-1">
-                    {[1, 2, 3, 4, 5].map(level => (
-                      <div class={`w-2 h-2 rounded-full ${level <= skill.level ? 'bg-gray-900' : 'bg-gray-200'}`}></div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <!-- ポートフォリオ -->
-          <div class="bg-white border border-gray-200 rounded-lg p-6">
-            <h2 class="text-lg font-semibold text-gray-900 mb-4">{lang === 'zh-TW' ? '作品集精選' : 'ポートフォリオ'}</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {studentProfile.portfolio.map(project => (
-                <div class="border border-gray-200 rounded-lg overflow-hidden">
-                  <div class="aspect-video bg-gray-100 flex items-center justify-center">
-                    <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                    </svg>
-                  </div>
-                  <div class="p-4">
-                    <div class="flex items-center justify-between mb-2">
-                      <h3 class="font-medium text-gray-900 text-sm">{project.title}</h3>
-                      <span class="inline-flex items-center px-2 py-1 rounded text-xs bg-gray-100 text-gray-700">
-                        {project.type}
-                      </span>
-                    </div>
-                    <p class="text-gray-600 text-xs mb-3 leading-relaxed">{project.description}</p>
-                    <div class="flex flex-wrap gap-1">
-                      {project.tools.map(tool => (
-                        <span class="inline-flex items-center px-2 py-1 rounded text-xs bg-gray-100 text-gray-700">
-                          {tool}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <!-- 実務経験 -->
-          <div class="bg-white border border-gray-200 rounded-lg p-6">
-            <h2 class="text-lg font-semibold text-gray-900 mb-4">{lang === 'zh-TW' ? '實務經驗' : '実務経験'}</h2>
-            <div class="space-y-6">
-              {studentProfile.experience.map(exp => (
-                <div class="border-l-2 border-gray-200 pl-4">
-                  <div class="flex items-start justify-between mb-2">
-                    <div>
-                      <h3 class="font-medium text-gray-900">{exp.title}</h3>
-                      <p class="text-sm text-gray-600">{exp.company}</p>
-                    </div>
-                    <div class="text-right">
-                      <span class="inline-flex items-center px-2 py-1 rounded text-xs bg-gray-100 text-gray-700">
-                        {exp.type}
-                      </span>
-                      <p class="text-xs text-gray-500 mt-1">{exp.rate}</p>
-                    </div>
-                  </div>
-                  <p class="text-xs text-gray-500 mb-2">{exp.period}</p>
-                  <p class="text-sm text-gray-600 leading-relaxed">{exp.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
+        <div class="lg:col-span-2 space-y-6 order-2">
           <!-- 企業からの評価 -->
-          <div class="bg-white border border-gray-200 rounded-lg p-6">
+          <div class="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
             <h2 class="text-lg font-semibold text-gray-900 mb-4">{lang === 'zh-TW' ? '企業評價' : '企業からの評価'}</h2>
-            
-            <!-- 総合評価 -->
-            <div class="bg-gray-50 rounded-lg p-4 mb-6">
-              <div class="text-center">
-                <div class="text-3xl font-bold text-gray-900 mb-1">
-                  {avgOverallRating.toFixed(1)}
+
+            <!-- スキル評価レーダーチャート -->
+            <div class="mb-6">
+              
+              <!-- レーダーチャートとスコア -->
+              <div class="flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-8 lg:gap-12">
+                <!-- レーダーチャート -->
+                <div class="relative w-56 sm:w-64 md:w-72 lg:w-80 h-56 sm:h-64 md:h-72 lg:h-80 flex-shrink-0">
+                  <svg viewBox="0 0 200 200" class="w-full h-full">
+                    <!-- グリッド背景 -->
+                    <circle cx="100" cy="100" r="20" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+                    <circle cx="100" cy="100" r="40" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+                    <circle cx="100" cy="100" r="60" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+                    <circle cx="100" cy="100" r="80" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+                    
+                    <!-- 軸線（5角形用） -->
+                    <line x1="100" y1="20" x2="100" y2="180" stroke="#e5e7eb" stroke-width="1"/>
+                    <line x1="175.3" y1="55.9" x2="24.7" y2="144.1" stroke="#e5e7eb" stroke-width="1"/>
+                    <line x1="175.3" y1="144.1" x2="24.7" y2="55.9" stroke="#e5e7eb" stroke-width="1"/>
+                    <line x1="100" y1="180" x2="24.7" y2="55.9" stroke="#e5e7eb" stroke-width="1"/>
+                    <line x1="100" y1="180" x2="175.3" y2="55.9" stroke="#e5e7eb" stroke-width="1"/>
+                    
+                    <!-- データポリゴン -->
+                    <polygon
+                      points={[
+                        // デザイン力 (上部)
+                        `100,${100 - (avgSkillRatings.design * 16)}`,
+                        // コミュニケーション (右上)
+                        `${100 + (avgSkillRatings.communication * 16 * 0.951)},${100 - (avgSkillRatings.communication * 16 * 0.309)}`,
+                        // 締切管理 (右下)
+                        `${100 + (avgSkillRatings.deadline * 16 * 0.588)},${100 + (avgSkillRatings.deadline * 16 * 0.809)}`,
+                        // 創造性 (左下)
+                        `${100 - (avgSkillRatings.creativity * 16 * 0.588)},${100 + (avgSkillRatings.creativity * 16 * 0.809)}`,
+                        // プロ意識 (左上)
+                        `${100 - (avgSkillRatings.professionalism * 16 * 0.951)},${100 - (avgSkillRatings.professionalism * 16 * 0.309)}`
+                      ].join(' ')}
+                      fill="rgba(31, 41, 55, 0.2)"
+                      stroke="#1f2937"
+                      stroke-width="2"
+                    />
+                    
+                    <!-- データポイント -->
+                    <circle cx="100" cy={100 - (avgSkillRatings.design * 16)} r="3" fill="#1f2937"/>
+                    <circle cx={100 + (avgSkillRatings.communication * 16 * 0.951)} cy={100 - (avgSkillRatings.communication * 16 * 0.309)} r="3" fill="#1f2937"/>
+                    <circle cx={100 + (avgSkillRatings.deadline * 16 * 0.588)} cy={100 + (avgSkillRatings.deadline * 16 * 0.809)} r="3" fill="#1f2937"/>
+                    <circle cx={100 - (avgSkillRatings.creativity * 16 * 0.588)} cy={100 + (avgSkillRatings.creativity * 16 * 0.809)} r="3" fill="#1f2937"/>
+                    <circle cx={100 - (avgSkillRatings.professionalism * 16 * 0.951)} cy={100 - (avgSkillRatings.professionalism * 16 * 0.309)} r="3" fill="#1f2937"/>
+                  </svg>
+                  
+                  <!-- 数字ラベル -->
+                  <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2 w-5 h-5 bg-gray-600 text-white rounded-full flex items-center justify-center text-xs">
+                    1
+                  </div>
+                  <div class="absolute top-6 right-2 transform translate-x-1 w-5 h-5 bg-gray-600 text-white rounded-full flex items-center justify-center text-xs">
+                    2
+                  </div>
+                  <div class="absolute bottom-6 right-2 transform translate-x-1 w-5 h-5 bg-gray-600 text-white rounded-full flex items-center justify-center text-xs">
+                    3
+                  </div>
+                  <div class="absolute bottom-6 left-2 transform -translate-x-1 w-5 h-5 bg-gray-600 text-white rounded-full flex items-center justify-center text-xs">
+                    4
+                  </div>
+                  <div class="absolute top-6 left-2 transform -translate-x-1 w-5 h-5 bg-gray-600 text-white rounded-full flex items-center justify-center text-xs">
+                    5
+                  </div>
                 </div>
-                <div class="flex justify-center items-center mb-2">
-                  {[1, 2, 3, 4, 5].map(star => (
-                    <svg class={`w-5 h-5 ${star <= Math.round(avgOverallRating) ? 'text-gray-900' : 'text-gray-300'}`} fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                    </svg>
-                  ))}
+                
+                <!-- スコア一覧 -->
+                <div class="space-y-3 flex-1 w-full md:w-auto min-w-0">
+                  <!-- 総合評価 -->
+                  <div class="bg-gray-900 rounded-lg px-4 py-4 mb-4">
+                    <div class="flex items-center justify-between">
+                      <div class="text-white">
+                        <div class="text-base font-semibold">{lang === 'zh-TW' ? '總體評價' : '総合評価'}</div>
+                        <div class="text-xs opacity-80">({studentProfile.companyEvaluations.length}{lang === 'zh-TW' ? '個專案' : 'プロジェクト'})</div>
+                      </div>
+                      <div class="text-right">
+                        <div class="text-3xl font-bold text-white mb-1">
+                          {avgOverallRating.toFixed(1)}
+                        </div>
+                        <div class="flex items-center justify-end">
+                          {[1, 2, 3, 4, 5].map(star => (
+                            <svg class={`w-4 h-4 ${star <= Math.round(avgOverallRating) ? 'text-yellow-400' : 'text-gray-400'}`} fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3">
+                    <div class="flex items-center">
+                      <div class="w-5 h-5 bg-gray-600 text-white rounded-full flex items-center justify-center text-xs mr-3">1</div>
+                      <span class="text-sm font-medium text-gray-700">{lang === 'zh-TW' ? '設計能力' : 'デザイン力'}</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                      <div class="flex space-x-1">
+                        {[1, 2, 3, 4, 5].map(level => (
+                          <div class={`w-2 h-2 rounded-full ${level <= Math.round(avgSkillRatings.design) ? 'bg-gray-900' : 'bg-gray-300'}`}></div>
+                        ))}
+                      </div>
+                      <span class="text-lg font-semibold text-gray-900 min-w-8">{avgSkillRatings.design.toFixed(1)}</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3">
+                    <div class="flex items-center">
+                      <div class="w-5 h-5 bg-gray-600 text-white rounded-full flex items-center justify-center text-xs mr-3">2</div>
+                      <span class="text-sm font-medium text-gray-700">{lang === 'zh-TW' ? '溝通能力' : 'コミュニケーション'}</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                      <div class="flex space-x-1">
+                        {[1, 2, 3, 4, 5].map(level => (
+                          <div class={`w-2 h-2 rounded-full ${level <= Math.round(avgSkillRatings.communication) ? 'bg-gray-900' : 'bg-gray-300'}`}></div>
+                        ))}
+                      </div>
+                      <span class="text-lg font-semibold text-gray-900 min-w-8">{avgSkillRatings.communication.toFixed(1)}</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3">
+                    <div class="flex items-center">
+                      <div class="w-5 h-5 bg-gray-600 text-white rounded-full flex items-center justify-center text-xs mr-3">3</div>
+                      <span class="text-sm font-medium text-gray-700">{lang === 'zh-TW' ? '時程管理' : '締切管理'}</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                      <div class="flex space-x-1">
+                        {[1, 2, 3, 4, 5].map(level => (
+                          <div class={`w-2 h-2 rounded-full ${level <= Math.round(avgSkillRatings.deadline) ? 'bg-gray-900' : 'bg-gray-300'}`}></div>
+                        ))}
+                      </div>
+                      <span class="text-lg font-semibold text-gray-900 min-w-8">{avgSkillRatings.deadline.toFixed(1)}</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3">
+                    <div class="flex items-center">
+                      <div class="w-5 h-5 bg-gray-600 text-white rounded-full flex items-center justify-center text-xs mr-3">4</div>
+                      <span class="text-sm font-medium text-gray-700">{lang === 'zh-TW' ? '創造力' : '創造性'}</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                      <div class="flex space-x-1">
+                        {[1, 2, 3, 4, 5].map(level => (
+                          <div class={`w-2 h-2 rounded-full ${level <= Math.round(avgSkillRatings.creativity) ? 'bg-gray-900' : 'bg-gray-300'}`}></div>
+                        ))}
+                      </div>
+                      <span class="text-lg font-semibold text-gray-900 min-w-8">{avgSkillRatings.creativity.toFixed(1)}</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3">
+                    <div class="flex items-center">
+                      <div class="w-5 h-5 bg-gray-600 text-white rounded-full flex items-center justify-center text-xs mr-3">5</div>
+                      <span class="text-sm font-medium text-gray-700">{lang === 'zh-TW' ? '專業態度' : 'プロ意識'}</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                      <div class="flex space-x-1">
+                        {[1, 2, 3, 4, 5].map(level => (
+                          <div class={`w-2 h-2 rounded-full ${level <= Math.round(avgSkillRatings.professionalism) ? 'bg-gray-900' : 'bg-gray-300'}`}></div>
+                        ))}
+                      </div>
+                      <span class="text-lg font-semibold text-gray-900 min-w-8">{avgSkillRatings.professionalism.toFixed(1)}</span>
+                    </div>
+                  </div>
                 </div>
-                <p class="text-sm text-gray-600">{lang === 'zh-TW' ? '總體評價' : '総合評価'} ({studentProfile.companyEvaluations.length}{lang === 'zh-TW' ? '個專案' : 'プロジェクト'})</p>
               </div>
             </div>
 
-            <!-- スキル評価レーダーチャート風 -->
-            <div class="mb-6">
-              <h3 class="font-medium text-gray-900 mb-4">{lang === 'zh-TW' ? '技能評分' : 'スキル評価'}</h3>
-              <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                  <span class="text-sm font-medium text-gray-700">{lang === 'zh-TW' ? '設計能力' : 'デザイン力'}</span>
-                  <div class="flex items-center space-x-2">
-                    <div class="w-32 bg-gray-200 rounded-full h-2">
-                      <div class="bg-gray-900 h-2 rounded-full" style={`width: ${(avgSkillRatings.design / 5) * 100}%`}></div>
-                    </div>
-                    <span class="text-sm font-medium text-gray-900 w-8">{avgSkillRatings.design.toFixed(1)}</span>
-                  </div>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm font-medium text-gray-700">{lang === 'zh-TW' ? '溝通能力' : 'コミュニケーション'}</span>
-                  <div class="flex items-center space-x-2">
-                    <div class="w-32 bg-gray-200 rounded-full h-2">
-                      <div class="bg-gray-900 h-2 rounded-full" style={`width: ${(avgSkillRatings.communication / 5) * 100}%`}></div>
-                    </div>
-                    <span class="text-sm font-medium text-gray-900 w-8">{avgSkillRatings.communication.toFixed(1)}</span>
-                  </div>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm font-medium text-gray-700">{lang === 'zh-TW' ? '時程管理' : '締切管理'}</span>
-                  <div class="flex items-center space-x-2">
-                    <div class="w-32 bg-gray-200 rounded-full h-2">
-                      <div class="bg-gray-900 h-2 rounded-full" style={`width: ${(avgSkillRatings.deadline / 5) * 100}%`}></div>
-                    </div>
-                    <span class="text-sm font-medium text-gray-900 w-8">{avgSkillRatings.deadline.toFixed(1)}</span>
-                  </div>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm font-medium text-gray-700">{lang === 'zh-TW' ? '創造力' : '創造性'}</span>
-                  <div class="flex items-center space-x-2">
-                    <div class="w-32 bg-gray-200 rounded-full h-2">
-                      <div class="bg-gray-900 h-2 rounded-full" style={`width: ${(avgSkillRatings.creativity / 5) * 100}%`}></div>
-                    </div>
-                    <span class="text-sm font-medium text-gray-900 w-8">{avgSkillRatings.creativity.toFixed(1)}</span>
-                  </div>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm font-medium text-gray-700">{lang === 'zh-TW' ? '專業態度' : 'プロ意識'}</span>
-                  <div class="flex items-center space-x-2">
-                    <div class="w-32 bg-gray-200 rounded-full h-2">
-                      <div class="bg-gray-900 h-2 rounded-full" style={`width: ${(avgSkillRatings.professionalism / 5) * 100}%`}></div>
-                    </div>
-                    <span class="text-sm font-medium text-gray-900 w-8">{avgSkillRatings.professionalism.toFixed(1)}</span>
-                  </div>
-                </div>
-              </div>
+            <!-- 詳細表示ボタン -->
+            <div class="text-center mb-4">
+              <button 
+                id="toggle-evaluation-details"
+                data-lang={lang}
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-colors"
+              >
+                <span id="toggle-text">{lang === 'zh-TW' ? '查看詳細評價' : '詳細な評価を見る'}</span>
+                <svg id="toggle-icon" class="w-4 h-4 ml-2 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
             </div>
 
             <!-- 個別の評価コメント -->
-            <div class="space-y-4">
+            <div id="evaluation-details" class="hidden space-y-4">
               <h3 class="font-medium text-gray-900">{lang === 'zh-TW' ? '客戶評語' : 'クライアントからの評価'}</h3>
               {studentProfile.companyEvaluations.map(evaluation => (
                 <div class="border border-gray-200 rounded-lg p-4">
@@ -395,6 +444,116 @@ const avgOverallRating = studentProfile.companyEvaluations.reduce((sum, evaluati
                     </div>
                   </div>
                   <p class="text-sm text-gray-600 leading-relaxed">{evaluation.comment}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <script>
+            document.addEventListener('DOMContentLoaded', function() {
+              const toggleButton = document.getElementById('toggle-evaluation-details');
+              const toggleText = document.getElementById('toggle-text');
+              const toggleIcon = document.getElementById('toggle-icon');
+              const evaluationDetails = document.getElementById('evaluation-details');
+              
+              if (toggleButton && evaluationDetails && toggleText && toggleIcon) {
+                const currentLang = toggleButton.getAttribute('data-lang');
+                const isZhTW = currentLang === 'zh-TW';
+                
+                toggleButton.addEventListener('click', function() {
+                  const isHidden = evaluationDetails.classList.contains('hidden');
+                  
+                  if (isHidden) {
+                    // 詳細を表示
+                    evaluationDetails.classList.remove('hidden');
+                    toggleText.textContent = isZhTW ? '隱藏詳細評價' : '詳細な評価を隠す';
+                    toggleIcon.classList.add('rotate-180');
+                  } else {
+                    // 詳細を隠す
+                    evaluationDetails.classList.add('hidden');
+                    toggleText.textContent = isZhTW ? '查看詳細評價' : '詳細な評価を見る';
+                    toggleIcon.classList.remove('rotate-180');
+                  }
+                });
+              }
+            });
+          </script>
+
+          <!-- 自己紹介 -->
+          <div class="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">{lang === 'zh-TW' ? '自我介紹' : '自己紹介'}</h2>
+            <p class="text-gray-600 leading-relaxed text-sm sm:text-base">{studentProfile.bio}</p>
+          </div>
+
+          <!-- スキル -->
+          <div class="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">{lang === 'zh-TW' ? '技能' : 'スキル'}</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              {studentProfile.skills.map(skill => (
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-medium text-gray-900">{skill.name}</span>
+                  <div class="flex items-center space-x-1">
+                    {[1, 2, 3, 4, 5].map(level => (
+                      <div class={`w-2 h-2 rounded-full ${level <= skill.level ? 'bg-gray-900' : 'bg-gray-200'}`}></div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- ポートフォリオ -->
+          <div class="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">{lang === 'zh-TW' ? '作品集精選' : 'ポートフォリオ'}</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              {studentProfile.portfolio.map(project => (
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                  <div class="aspect-video bg-gray-100 flex items-center justify-center">
+                    <svg class="w-10 sm:w-12 h-10 sm:h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                  </div>
+                  <div class="p-3 sm:p-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2 space-y-1 sm:space-y-0">
+                      <h3 class="font-medium text-gray-900 text-sm">{project.title}</h3>
+                      <span class="inline-flex items-center px-2 py-1 rounded text-xs bg-gray-100 text-gray-700 self-start sm:self-auto">
+                        {project.type}
+                      </span>
+                    </div>
+                    <p class="text-gray-600 text-xs mb-3 leading-relaxed">{project.description}</p>
+                    <div class="flex flex-wrap gap-1">
+                      {project.tools.map(tool => (
+                        <span class="inline-flex items-center px-2 py-1 rounded text-xs bg-gray-100 text-gray-700">
+                          {tool}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- 実務経験 -->
+          <div class="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">{lang === 'zh-TW' ? '實務經驗' : '実務経験'}</h2>
+            <div class="space-y-4 sm:space-y-6">
+              {studentProfile.experience.map(exp => (
+                <div class="border-l-2 border-gray-200 pl-4">
+                  <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-2 space-y-2 sm:space-y-0">
+                    <div class="flex-1">
+                      <h3 class="font-medium text-gray-900">{exp.title}</h3>
+                      <p class="text-sm text-gray-600">{exp.company}</p>
+                    </div>
+                    <div class="flex flex-col sm:items-end space-y-1">
+                      <span class="inline-flex items-center px-2 py-1 rounded text-xs bg-gray-100 text-gray-700 self-start sm:self-auto">
+                        {exp.type}
+                      </span>
+                      <p class="text-xs text-gray-500">{exp.rate}</p>
+                    </div>
+                  </div>
+                  <p class="text-xs text-gray-500 mb-2">{exp.period}</p>
+                  <p class="text-sm text-gray-600 leading-relaxed">{exp.description}</p>
                 </div>
               ))}
             </div>

@@ -134,13 +134,14 @@ const types = lang === 'zh-TW' ?
             <a href={`/?lang=${lang}`} class="text-xl font-semibold text-gray-900">
               DesignBridge
             </a>
-            <span class="ml-3 text-sm text-gray-500">{t('nav.students', lang)}</span>
+            <span class="ml-3 text-sm text-gray-500 hidden sm:inline">{t('nav.students', lang)}</span>
           </div>
-          <div class="flex items-center space-x-6">
+          <div class="flex items-center space-x-2 sm:space-x-6">
             <LanguageSwitcher />
-            <a href={`/student/profile?lang=${lang}`} class="text-sm text-gray-600 hover:text-gray-900">{t('nav.profile', lang)}</a>
-            <button class="text-sm text-gray-600 hover:text-gray-900">{t('nav.applications', lang)}</button>
-            <button class="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium">{t('nav.logout', lang)}</button>
+            <a href={`/student?lang=${lang}`} class="text-xs text-gray-900 font-medium hidden sm:inline">{lang === 'zh-TW' ? '專案列表' : 'プロジェクト一覧'}</a>
+            <a href={`/student/profile?lang=${lang}`} class="text-xs text-gray-600 hover:text-gray-900 hidden sm:inline">{lang === 'zh-TW' ? '個人檔案' : 'プロフィール'}</a>
+            <button class="text-xs text-gray-600 hover:text-gray-900 hidden sm:inline">{t('nav.applications', lang)}</button>
+            <button class="bg-gray-900 hover:bg-gray-800 text-white px-3 sm:px-4 py-2 rounded-md text-xs font-medium">{t('nav.logout', lang)}</button>
           </div>
         </div>
       </div>
@@ -148,49 +149,60 @@ const types = lang === 'zh-TW' ?
 
     <!-- ヒーローセクション -->
     <div class="bg-white border-b border-gray-200">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
         <div class="text-center">
-          <h1 class="text-3xl font-bold text-gray-900 mb-3">
+          <h1 class="text-xl sm:text-2xl font-semibold text-gray-900">
             {t('student.title', lang)}
           </h1>
-          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-            {t('student.subtitle', lang)}
-          </p>
         </div>
       </div>
     </div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <!-- 検索・フィルター -->
-      <div class="bg-white border border-gray-200 rounded-lg p-6 mb-8">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div class="bg-white border border-gray-200 rounded-lg p-4 mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
           <input
             type="text"
             placeholder={t('student.search.placeholder', lang)}
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-sm"
           />
           
-          <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-sm">
-            <option>{t('student.type', lang)}</option>
-            {types.map(type => <option value={type}>{type}</option>)}
-          </select>
+          <div class="relative">
+            <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-sm bg-white appearance-none pr-8">
+              <option value="">{t('student.type', lang)}</option>
+              {types.map(type => <option value={type}>{type}</option>)}
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+              <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </div>
+          </div>
           
-          <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-sm">
-            <option>{t('student.location', lang)}</option>
-            {locations.map(location => <option value={location}>{location}</option>)}
-          </select>
+          <div class="relative">
+            <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-sm bg-white appearance-none pr-8">
+              <option value="">{t('student.location', lang)}</option>
+              {locations.map(location => <option value={location}>{location}</option>)}
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+              <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </div>
+          </div>
           
-          <button class="bg-gray-900 hover:bg-gray-800 text-white py-2 px-4 rounded-md text-sm font-medium">
+          <button class="bg-gray-900 hover:bg-gray-800 text-white py-2 px-4 rounded-md text-sm font-medium w-full">
             検索
           </button>
         </div>
         
         <!-- カテゴリータグ -->
-        <div class="border-t border-gray-200 pt-4">
-          <p class="text-sm font-medium text-gray-700 mb-3">{t('student.tags', lang)}</p>
+        <div class="border-t border-gray-200 pt-3">
+          <p class="text-xs font-medium text-gray-700 mb-2">{t('student.tags', lang)}</p>
           <div class="flex flex-wrap gap-2">
             {categories.map(category => (
-              <button class="px-3 py-1 text-sm border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 hover:border-gray-400 transition-colors">
+              <button class="px-3 py-1 text-xs border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 hover:border-gray-400 transition-colors">
                 {category}
               </button>
             ))}
@@ -200,14 +212,14 @@ const types = lang === 'zh-TW' ?
 
       <!-- 注目プロジェクト -->
       <div class="mb-12">
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 space-y-2 sm:space-y-0">
           <h2 class="text-2xl font-bold text-gray-900">
             注目のプロジェクト
           </h2>
           <span class="text-sm text-gray-500">厳選された高評価案件</span>
         </div>
         
-        <div class="grid lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.filter(p => p.featured).map(project => (
             <div class="bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow duration-200 overflow-hidden">
               <!-- ヘッダー -->
@@ -224,7 +236,7 @@ const types = lang === 'zh-TW' ?
                 <h3 class="text-lg font-semibold text-gray-900 mb-2 leading-tight">
                   {project.title}
                 </h3>
-                <div class="flex items-center text-sm text-gray-600 space-x-4">
+                <div class="flex flex-col sm:flex-row sm:items-center text-sm text-gray-600 sm:space-x-4 space-y-1 sm:space-y-0">
                   <span class="font-medium">{project.company}</span>
                   <span>{project.location}</span>
                 </div>
@@ -232,7 +244,7 @@ const types = lang === 'zh-TW' ?
 
               <!-- コンテンツ -->
               <div class="p-6">
-                <div class="flex items-center space-x-2 mb-4">
+                <div class="flex flex-wrap items-center gap-2 mb-4">
                   <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                     {project.type}
                   </span>
@@ -281,11 +293,11 @@ const types = lang === 'zh-TW' ?
           すべてのプロジェクト
         </h2>
         
-        <div class="grid lg:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {projects.map(project => (
             <div class="bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow duration-200 overflow-hidden">
               <div class="p-5">
-                <div class="flex items-center space-x-2 mb-3">
+                <div class="flex flex-wrap items-center gap-2 mb-3">
                   <span class="inline-flex items-center px-2 py-1 rounded text-xs bg-gray-100 text-gray-700">
                     {project.type}
                   </span>

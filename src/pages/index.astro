@@ -4,7 +4,6 @@ import LanguageSwitcher from '../components/LanguageSwitcher.astro';
 import { t } from '../utils/i18n.ts';
 
 const lang = Astro.url.searchParams.get('lang') || 'ja';
-console.log('Current language:', lang); // デバッグ用
 ---
 
 <Layout title="DesignBridge - 地方中小企業とデザイン学生をつなぐ">
